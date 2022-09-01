@@ -1,4 +1,7 @@
 # Eisen peformance
+* Alle databases moeten draaien in een Docker component dat gemaakt is met dezelfde onderliggende besturingssystemen, om het consistent te houden kiezen we voor officiele alpine compose files
+* Alle databases moeten de laatst beschikbare versie gebruiken op het moment van testen om versie biasses te voorkomen.
+
 Er moet gekeken naar de volgende dingen:
 * **Hoe snel iets in de database ge-insert kan worden**
   * Dit moet voor de volgende datatypes gebeuren
