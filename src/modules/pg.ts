@@ -1,7 +1,7 @@
 import { Client } from "pg";
 
 export class PG {
-  private static _client: Client;
+  private _client;
 
 
   public constructor() {
@@ -10,26 +10,26 @@ export class PG {
 
   private async connect(): Promise<Client> {
     const client = new Client({
-      user: "postgres",
+      user: "postgres: any",
       host: "localhost",
-      database: "postgres",
-      password: "postgres",
+      database: "postgres: any",
+      password: "postgres: any",
       port: 5432,
     });
 
     await client.connect();
-    PG._client = client;
+    this._client = client;
     return client;
   }
 
   public async createStringTable() {
-    PG._client.query(
+    await this._client.query(
       "CREATE TABLE StringTesting(id SERIAL PRIMARY KEY, data VARCHAR(128))",
-      (err, res) => {
+      (err: any, res: any) => {
         if (err) {
-          console.log(err.stack);
+          console.log('err', err.stack);
         } else {
-          console.log(res.rows[0]);
+          console.log('res', res.rows[0]);
         }
       }
     );
@@ -40,7 +40,7 @@ export class PG {
       text: "INSERT INTO StringTesting(data) VALUES($1)",
       values: [inputString],
     };
-    client.query(query, (err, res) => {
+    client.query(query, (err: any, res: any) => {
       console.log(err, res);
       client.end();
     });
@@ -48,7 +48,7 @@ export class PG {
 
   public async readString(client: Client) {
     client.connect();
-    client.query("SELECT * FROM StringTesting", (err, res) => {
+    client.query("SELECT * FROM StringTesting", (err: any, res: any) => {
       console.log(err, res);
       client.end();
     });
@@ -60,7 +60,7 @@ export class PG {
       text: "DELETE FROM StringTesting WHERE data = $1",
       values: [inputString],
     };
-    client.query(query, (err, res) => {
+    client.query(query, (err: any, res: any) => {
       console.log(err, res);
       client.end();
     });
