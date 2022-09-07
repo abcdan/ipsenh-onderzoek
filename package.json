@@ -1,0 +1,7 @@
+{
+  "name": "ipsenh-onderzoek",
+  "version": "1.0.0",
+  "dependencies": {
+    "knex": "^2.3.0"
+  }
+}
