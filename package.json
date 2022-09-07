@@ -1,8 +1,25 @@
 {
   "name": "ipsenh-onderzoek",
-  "module": "index.ts",
-  "type": "module",
+  "module": "index",
+  "main": "lib/index.js",
+  "types": "lib/main.d.ts",
+  "scripts": {
+    "test": "jest ./tests",
+    "build": "tsc",
+    "format": "prettier --write \"src/**/*.ts\"",
+    "lint": "tslint -p tsconfig.json",
+    "docs": "npx typedoc src/index.ts",
+    "fix": "npm run format && npm run lint && npm run build && npm run test",
+    "prepare-for-release": "npm run fix"
+  },
   "devDependencies": {
-    "bun-types": "^0.1.0"
+    "@types/pg": "^8.6.5"
+  },
+  "dependencies": {
+    "mariadb": "^3.0.1",
+    "nodemon": "^2.0.19",
+    "pg": "^8.8.0",
+    "sqlite3": "^5.0.11",
+    "ts-node": "^10.9.1"
   }
 }

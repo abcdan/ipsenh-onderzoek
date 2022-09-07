@@ -1,4 +1,6 @@
 # Eisen peformance
+* De code moet op Bun draaien om zo min mogelijk overhead te creeeren door de engine. Het gaat hier om testen van een database. Daarnaast is Bun een drop-in replacement voor Node.js en zou gebruikt moeten worden omdat het sneller is out-of-the-box.
+  
 * Alle databases moeten draaien in een Docker component dat gemaakt is met dezelfde onderliggende besturingssystemen, om het consistent te houden kiezen we voor officiele alpine compose files
 * Alle databases moeten de laatst beschikbare versie gebruiken op het moment van testen om versie biasses te voorkomen.
 

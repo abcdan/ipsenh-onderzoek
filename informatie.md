@@ -12,3 +12,5 @@ https://mariadb.com/kb/en/mariadb-1092-release-notes/
 De laatste versie die op het moment van programmeren uit is, is 3.39.2
 https://www.sqlite.org/releaselog/3_39_2.html
 https://github.com/jansanchez/sqlite-alpine/blob/master/Dockerfile
+
+Alle links zijn bezocht op 1 september 2022, voor de bronnenboy.
