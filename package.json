@@ -1,0 +1,8 @@
+{
+  "name": "ipsenh-onderzoek",
+  "module": "index.ts",
+  "type": "module",
+  "devDependencies": {
+    "bun-types": "^0.1.0"
+  }
+}
