@@ -1,0 +1,8 @@
+{
+    "language": "NL",
+    "theme": "dark",
+    "showWelcome": true,
+    "showWelcomeOnStartup": true,
+    "showWelcomeOnStartupDelay": 1000,
+    
+}

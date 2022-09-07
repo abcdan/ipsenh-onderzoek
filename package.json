@@ -17,8 +17,10 @@
   },
   "dependencies": {
     "mariadb": "^3.0.1",
+    "mysql2": "^2.3.3",
     "nodemon": "^2.0.19",
     "pg": "^8.8.0",
+    "precise-timer": "^1.0.1",
     "sqlite3": "^5.0.11",
     "ts-node": "^10.9.1"
   }
