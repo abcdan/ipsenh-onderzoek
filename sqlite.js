@@ -1,91 +1,91 @@
 // Example invoice object
-const invoice = require('./json/invoice.json')
-const invoice2 = require('./json/invoice2.json')
-const json = JSON.stringify(invoice)
-const PreciseTimer = require('precise-timer')
+const invoice = require("./json/invoice.json");
+const invoice2 = require("./json/invoice2.json");
+const json = JSON.stringify(invoice);
+const PreciseTimer = require("precise-timer");
+const Entry  = require("./modules/entry");
+const cliProgress = require('cli-progress');
+const averages = require("./modules/averages");
 
-const knex = require('knex')({
-    client: 'sqlite3', // or 'better-sqlite3'
-    connection: {
-        filename: "./db.sqlite"
-    },
-    useNullAsDefault: true
+
+const TOTAL_ROUNDS = 10
+
+const bar1 = new cliProgress.SingleBar({}, cliProgress.Presets.shades_classic);
+bar1.start(TOTAL_ROUNDS, 0);
+
+const stats = [];
+
+const knex = require("knex")({
+  client: "sqlite3", // or 'better-sqlite3'
+  connection: {
+    filename: "./db.sqlite",
+  },
+  useNullAsDefault: true,
 });
 
-
-let timer = new PreciseTimer({decimals: 6})
+let timer = new PreciseTimer({ decimals: 0 });
 
 function reset() {
-    timer = new PreciseTimer({decimals: 6})
+  timer = new PreciseTimer({ decimals: 0 });
 }
+
+
 
 async function main() {
-    reset();
-    await knex.schema.dropTableIfExists('invoices')
-    console.log('Drop', timer.elapsed)
+  reset();
+  await knex.schema.dropTableIfExists("invoices");
 
-    reset();
-    await knex.schema
-        .createTable("invoices", (table) => {
-            table.increments()
-            table.string("name")
-            table.string("invoice")
-            table.timestamp("time")
-        })
-    console.log('New table', timer.elapsed)
+  reset();
+  await knex.schema.createTable("invoices", (table) => {
+    table.increments();
+    table.string("name");
+    table.string("invoice");
+    table.timestamp("time");
+  });
 
+  for (let i = 0; i < TOTAL_ROUNDS; i++) {
+    bar1.update(i);
+    await knex("invoices").del().where("id", "!=", "null");
 
-    for (let i = 0; i < 3; i++) {
-        console.log('Iteration', i)
-        console.log('Dropping all invoices')
-        reset();
-        await knex('invoices')
-            .del().where('id', '!=', 'null')
-        console.log('Dropped all invoices')
-        console.log('Dropped all invoices in', timer.elapsed)
-
-
-        for (let j = 0; j < 10000; j++) {
-            await knex
-                .insert(
-                    [
-                        {invoice: json},
-                    ],
-                    ['id']
-                )
-                .into('invoices')
-
-
-        }
-        console.log('Added 10k invoices in ', timer.elapsed)
-
-        reset();
-        const jemama_in_whales = await knex('invoices').select('*')
-        console.log(`Selected ${jemama_in_whales.length/1000}k items in `, timer.elapsed)
-
-        reset();
-        for (let j = 0; j < jemama_in_whales.length; j++) {
-            await knex('invoices').update({
-                invoice: invoice2
-            })
-        }
-        console.log(`Edited ${jemama_in_whales.length/1000}k items in `, timer.elapsed)
-
-        reset();
-        for (let j = 0; j < jemama_in_whales.length; j++) {
-            await knex('invoices').del(jemama_in_whales[j])
-        }
-        console.log(`Deleted ${jemama_in_whales.length/1000}k items in `, timer.elapsed)
-
-        console.log('\n')
-
-
+    for (let j = 0; j < 10000; j++) {
+      await knex.insert([{ invoice: json }], ["id"]).into("invoices");
     }
+
+    const INSERT_TIME = timer.elapsed; reset()
+
+    const fetched_invoices = await knex("invoices").select("*");
+    const SELECT_TIME = timer.elapsed; reset()
+
+    for (let j = 0; j < fetched_invoices.length; j++) {
+      await knex("invoices").update({
+        invoice: invoice2,
+      });
+    }
+
+    const EDIT_TIME = timer.elapsed; reset()
+
+    for (let j = 0; j < fetched_invoices.length; j++) {
+      await knex("invoices").del(fetched_invoices[j]);
+    }
+
+    const DELETE_TIME = timer.elapsed;
+
+    stats.push(new Entry(i+1, INSERT_TIME, SELECT_TIME, EDIT_TIME, DELETE_TIME))
+  }
+
+  const avg = averages(stats)
+  stats.push(new Entry('------','------','------','------','------'))
+  stats.push(avg)
+  console.log('\n')
+  console.table(stats)
+  process.exit();
 
 }
 
-main().then(r => {
-    console.log(r)
-}).catch(e => {
-    console.error(e)
-})
+main()
+  .then((r) => {
+    console.log(r);
+  })
+  .catch((e) => {
+    console.error(e);
+  });
