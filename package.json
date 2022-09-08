@@ -2,7 +2,9 @@
   "name": "ipsenh-onderzoek",
   "version": "1.0.0",
   "dependencies": {
+    "cli-progress": "^3.11.2",
     "knex": "^2.3.0",
-    "precise-timer": "^1.0.1"
+    "precise-timer": "^1.0.1",
+    "string-progressbar": "^1.0.4"
   }
 }
