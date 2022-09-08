@@ -9,6 +9,7 @@ const averages = require("./modules/averages");
 
 
 const TOTAL_ROUNDS = 10
+const ITERATIONS = 1000
 
 const bar1 = new cliProgress.SingleBar({}, cliProgress.Presets.shades_classic);
 bar1.start(TOTAL_ROUNDS, 0);
@@ -47,7 +48,7 @@ async function main() {
     bar1.update(i);
     await knex("invoices").del().where("id", "!=", "null");
 
-    for (let j = 0; j < 10000; j++) {
+    for (let j = 0; j < ITERATIONS; j++) {
       await knex.insert([{ invoice: json }], ["id"]).into("invoices");
     }
 
@@ -65,7 +66,7 @@ async function main() {
     const EDIT_TIME = timer.elapsed; reset()
 
     for (let j = 0; j < fetched_invoices.length; j++) {
-      await knex("invoices").del(fetched_invoices[j]);
+      await knex("invoices").del(fetched_invoices[j].id);
     }
 
     const DELETE_TIME = timer.elapsed;
