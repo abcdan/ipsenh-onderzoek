@@ -7,21 +7,35 @@ const Entry  = require("./modules/entry");
 const cliProgress = require('cli-progress');
 const averages = require("./modules/averages");
 
+/**
+ * Code om de logs weg te halen, het doet niks en is iets van Maria.
+ */
+console.log = function (msg, ...options) {
+  const ignore = '.returning() is not supported by mysql and will not have any effect.'
+  if (msg.indexOf(ignore) === -1) {
+    console.info(msg, ...options)
+  }
+}  
+
 
 const TOTAL_ROUNDS = 10
-const ITERATIONS = 1000
+const ITERATIONS = 100
 
 const bar1 = new cliProgress.SingleBar({}, cliProgress.Presets.shades_classic);
-bar1.start(TOTAL_ROUNDS, 0);
+// bar1.start(TOTAL_ROUNDS, 0);
 
 const stats = [];
 
 const knex = require("knex")({
-  client: "sqlite3", // or 'better-sqlite3'
+  client: "mysql", // or 'better-sqlite3'
   connection: {
-    filename: "./db.sqlite",
-  },
-  useNullAsDefault: true,
+    host : 'localhost',
+    port : 3306,
+    user : 'hemiron',
+    password : 'hemiron_security',
+    database : 'testing',
+    charset  : 'utf8'
+  }
 });
 
 let timer = new PreciseTimer({ decimals: 0 });
@@ -34,22 +48,25 @@ function reset() {
 
 async function main() {
   reset();
-  await knex.schema.dropTableIfExists("invoices");
+  if(knex.schema.hasTable("invoices")) {
+    await knex.schema.dropTableIfExists("invoices");
+
+  }
 
   reset();
   await knex.schema.createTable("invoices", (table) => {
     table.increments();
     table.string("name");
-    table.string("invoice",5120);
-    table.timestamp("time");
+    table.string("invoice", 5120);
+    table.timestamps();
   });
 
   for (let i = 0; i < TOTAL_ROUNDS; i++) {
     bar1.update(i);
-    await knex("invoices").del().where("id", "!=", "null");
+    // await knex("invoices").del().where("id", "!=", "null");
 
     for (let j = 0; j < ITERATIONS; j++) {
-      await knex.insert([{ invoice: json }]).into("invoices");
+      await knex.insert([{ invoice: json }], ["id"]).into("invoices");
     }
 
     const INSERT_TIME = timer.elapsed; reset()
@@ -58,7 +75,7 @@ async function main() {
     const SELECT_TIME = timer.elapsed; reset()
 
     for (let j = 0; j < fetched_invoices.length; j++) {
-      await knex("invoices").update({
+      await fetched_invoices[j].update({
         invoice: invoice2,
       });
     }
