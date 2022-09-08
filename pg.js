@@ -2,6 +2,7 @@
 const invoice = require("./json/invoice.json");
 const invoice2 = require("./json/invoice2.json");
 const json = JSON.stringify(invoice);
+const json2 = JSON.stringify(invoice2)
 const PreciseTimer = require("precise-timer");
 const Entry  = require("./modules/entry");
 const cliProgress = require('cli-progress');
@@ -9,7 +10,7 @@ const averages = require("./modules/averages");
 
 
 const TOTAL_ROUNDS = 10
-const ITERATIONS = 1000
+const ITERATIONS = 100
 
 const bar1 = new cliProgress.SingleBar({}, cliProgress.Presets.shades_classic);
 bar1.start(TOTAL_ROUNDS, 0);
@@ -65,9 +66,9 @@ async function main() {
     const SELECT_TIME = timer.elapsed; reset()
 
     for (let j = 0; j < fetched_invoices.length; j++) {
-      await knex("invoices").update({
-        invoice: invoice2,
-      });
+      await knex("invoices").where({id: fetched_invoices[j].id}).update({
+        invoice: json2,
+      }, ['id', 'invoice']);
     }
 
     const EDIT_TIME = timer.elapsed; reset()
