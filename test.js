@@ -7,9 +7,9 @@ const { Command } = require("commander");
 const program = new Command();
 
 program
-  .name("string-util")
-  .description("CLI to some JavaScript string utilities")
-  .version("0.8.0");
+  .name("DB Tester")
+  .description("Test the performance of different databases on different machines with easy")
+  .version("0.0.1");
 
 program
   .command("pg")
