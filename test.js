@@ -8,7 +8,7 @@ const program = new Command();
 
 program
   .name("DB Tester")
-  .description("Test the performance of different databases on different machines with easy")
+  .description("Test the performance of different databases on different machines with easy.")
   .version("0.0.1");
 
 program
