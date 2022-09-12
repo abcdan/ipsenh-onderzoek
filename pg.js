@@ -9,8 +9,9 @@ const cliProgress = require('cli-progress');
 const averages = require("./modules/averages");
 
 
-const TOTAL_ROUNDS = 10
-const ITERATIONS = 100
+
+
+async function pg_test(TOTAL_ROUNDS = 10, ITERATIONS = 100) {
 
 const bar1 = new cliProgress.SingleBar({}, cliProgress.Presets.shades_classic);
 bar1.start(TOTAL_ROUNDS, 0);
@@ -37,7 +38,6 @@ function reset() {
 
 
 
-async function main() {
   reset();
   if(knex.schema.hasTable("invoices")) {
     await knex.schema.dropTableIfExists("invoices");
@@ -91,10 +91,6 @@ async function main() {
 
 }
 
-main()
-  .then((r) => {
-    console.log(r);
-  })
-  .catch((e) => {
-    console.error(e);
-  });
+module.exports = {
+  pg_test 
+}
