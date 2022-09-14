@@ -23,9 +23,9 @@ const knex = require("knex")({
   connection: {
     host : 'localhost',
     port : 5432,
-    user : 'postgres',
-    // password : 'hemiron_security',
-    database : 'postgres',
+    user : 'hemiron',
+    password : 'hemiron_security',
+    database : 'hemiron',
     charset  : 'utf8'
   }
 });

@@ -32,9 +32,9 @@ async function maria_test(TOTAL_ROUNDS = 10, ITERATIONS = 100) {
     connection: {
       host: "localhost",
       port: 3306,
-      // user: "hemiron",
-      // password: "hemiron_security",
-      database: "mysql",
+      user: "hemiron",
+      password: "hemiron_security",
+      database: "hemiron",
     },
   });
 
