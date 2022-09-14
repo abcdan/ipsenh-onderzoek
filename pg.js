@@ -62,6 +62,9 @@ function reset() {
 
     const INSERT_TIME = timer.elapsed; reset()
 
+    for (let j = 0; j < ITERATIONS-1; j++) { // Runs the amount -1 because it needs to get it one final time after the loop
+      await knex("invoices").select("*");
+      }
     const fetched_invoices = await knex("invoices").select("*");
     const SELECT_TIME = timer.elapsed; reset()
 

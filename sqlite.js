@@ -8,10 +8,7 @@ const Entry = require("./modules/entry");
 const cliProgress = require("cli-progress");
 const averages = require("./modules/averages");
 
-const TOTAL_ROUNDS = 10;
-const ITERATIONS = 100;
-
-async function sqlite_test() {
+async function sqlite_test(TOTAL_ROUNDS = 10, ITERATIONS = 100) {
   const bar1 = new cliProgress.SingleBar(
     {},
     cliProgress.Presets.shades_classic
@@ -56,6 +53,9 @@ async function sqlite_test() {
     const INSERT_TIME = timer.elapsed;
     reset();
 
+    for (let j = 0; j < ITERATIONS-1; j++) { // Runs the amount -1 because it needs to get it one final time after the loop
+      await knex("invoices").select("*");
+      }
     const fetched_invoices = await knex("invoices").select("*");
     const SELECT_TIME = timer.elapsed;
     reset();

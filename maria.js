@@ -19,10 +19,7 @@ console.log = function (msg, ...options) {
   }
 };
 
-const TOTAL_ROUNDS = 10;
-const ITERATIONS = 100;
-
-async function maria_test() {
+async function maria_test(TOTAL_ROUNDS = 10, ITERATIONS = 100) {
   const bar1 = new cliProgress.SingleBar(
     {},
     cliProgress.Presets.shades_classic
@@ -55,7 +52,13 @@ async function maria_test() {
   reset();
   await knex.schema.createTable("invoices", (table) => {
     table.increments();
-    table.string("name");
+    table.string("invoice_date")
+    table.number("invoice_total");
+    table.string("currency");
+    table.string("payment_menthod");
+    table.string("payment_status");
+    table.string("payment_processor");
+    table.strong("payment_date")
     table.string("invoice", 5120);
     table.timestamps();
   });
@@ -70,6 +73,11 @@ async function maria_test() {
 
     const INSERT_TIME = timer.elapsed;
     reset();
+
+
+    for (let j = 0; j < ITERATIONS-1; j++) { // Runs the amount -1 because it needs to get it one final time after the loop
+    await knex("invoices").select("*");
+    }
 
     const fetched_invoices = await knex("invoices").select("*");
     const SELECT_TIME = timer.elapsed;
