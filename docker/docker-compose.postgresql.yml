@@ -8,5 +8,6 @@ services:
     ports:
       - 5432:5432/tcp
     environment:
-      POSTGRES_DB: hemiron
+      POSTGRES_USER: hemiron
       POSTGRES_PASSWORD: hemiron_security
+      POSTGRES_DB: hemiron

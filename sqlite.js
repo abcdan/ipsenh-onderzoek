@@ -36,11 +36,12 @@ async function sqlite_test(TOTAL_ROUNDS = 10, ITERATIONS = 100) {
   await knex.schema.dropTableIfExists("invoices");
 
   reset();
+  
   await knex.schema.createTable("invoices", (table) => {
     table.increments();
     table.string("name");
-    table.string("invoice", 5120);
-    table.timestamp("time");
+    table.string("invoice",512);
+    table.timestamps();
   });
 
   for (let i = 0; i < TOTAL_ROUNDS; i++) {
@@ -48,7 +49,9 @@ async function sqlite_test(TOTAL_ROUNDS = 10, ITERATIONS = 100) {
     await knex("invoices").del().where("id", "!=", "null");
 
     for (let j = 0; j < ITERATIONS; j++) {
-      await knex.insert([{ invoice: json }]).into("invoices");
+      // await knex.insert([{ invoice: json }]).into("invoices");
+      await knex.insert({invoice: json.invoice
+      }).into("invoices");
     }
 
     const INSERT_TIME = timer.elapsed;

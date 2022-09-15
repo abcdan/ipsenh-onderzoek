@@ -53,14 +53,8 @@ async function maria_test(TOTAL_ROUNDS = 10, ITERATIONS = 100) {
   reset();
   await knex.schema.createTable("invoices", (table) => {
     table.increments();
-    table.string("invoice_date")
-    table.number("invoice_total");
-    table.string("currency");
-    table.string("payment_menthod");
-    table.string("payment_status");
-    table.string("payment_processor");
-    table.strong("payment_date")
-    table.string("invoice", 5120);
+    table.string("name");
+    table.string("invoice",512);
     table.timestamps();
   });
 

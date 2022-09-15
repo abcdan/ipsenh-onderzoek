@@ -49,7 +49,7 @@ function reset() {
   await knex.schema.createTable("invoices", (table) => {
     table.increments();
     table.string("name");
-    table.json("invoice");
+    table.string("invoice",512);
     table.timestamps();
   });
 
