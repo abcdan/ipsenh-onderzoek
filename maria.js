@@ -7,6 +7,7 @@ const PreciseTimer = require("precise-timer");
 const Entry = require("./modules/entry");
 const cliProgress = require("cli-progress");
 const averages = require("./modules/averages");
+const total = require("./modules/total");
 
 /**
  * Code om de logs weg te halen, het doet niks en is iets van Maria.
@@ -106,11 +107,14 @@ async function maria_test(TOTAL_ROUNDS = 10, ITERATIONS = 100) {
     );
   }
 
-  const avg = averages(stats);
+  const avg = averages(stats, 1);
+  const totalTime = total(stats)
   stats.push(new Entry("------", "------", "------", "------", "------"));
   stats.push(avg);
-  console.log("\n");
+  stats.push(new Entry("", "", "", "", ""));
+  stats.push(new Entry("------", "Total", "------", totalTime, "------"));
   console.table(stats);
+  console.log("\n");
   process.exit();
 }
 

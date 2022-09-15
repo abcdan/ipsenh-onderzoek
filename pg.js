@@ -7,6 +7,7 @@ const PreciseTimer = require("precise-timer");
 const Entry  = require("./modules/entry");
 const cliProgress = require('cli-progress');
 const averages = require("./modules/averages");
+const total = require("./modules/total");
 
 
 
@@ -85,11 +86,15 @@ function reset() {
     stats.push(new Entry(i+1, INSERT_TIME, SELECT_TIME, EDIT_TIME, DELETE_TIME))
   }
 
-  const avg = averages(stats)
-  stats.push(new Entry('------','------','------','------','------'))
-  stats.push(avg)
-  console.log('\n')
-  console.table(stats)
+
+  const avg = averages(stats, 1);
+  const totalTime = total(stats)
+  stats.push(new Entry("------", "------", "------", "------", "------"));
+  stats.push(avg);
+  stats.push(new Entry("", "", "", "", ""));
+  stats.push(new Entry("------", "Total", "------", totalTime, "------"));
+  console.table(stats);
+  console.log("\n");
   process.exit();
 
 }
