@@ -113,6 +113,7 @@ async function maria_test(TOTAL_ROUNDS = 10, ITERATIONS = 100) {
   stats.push(avg);
   stats.push(new Entry("", "", "", "", ""));
   stats.push(new Entry("------", "Total", "------", totalTime, "------"));
+  console.log("\n");
   console.table(stats);
   console.log("\n");
   process.exit();

@@ -49,6 +49,7 @@ program
   .argument("<rounds>", "How many times to run the tests")
   .argument("<iterations>", "How many times the data should be changed")
   .action((rounds, iterations) => {
+    console.log('\n\n\n\n')
     console.log(
       "Starting MariaDB test with " +
         rounds +
@@ -56,6 +57,9 @@ program
         iterations +
         " iterations"
     );
+    console.log('\n\n\n\n')
+    
+
     maria_test(rounds, iterations);
   });
 
