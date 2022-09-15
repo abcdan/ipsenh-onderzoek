@@ -13,7 +13,7 @@ module.exports = function (entries) {
         output.addTime += entry.addTime
         output.selectTime += entry.selectTime
         output.editTime += entry.editTime
-        output.deleteTime += entry.addTime
+        output.deleteTime += entry.deleteTime
     }
 
     output.addTime =`${~~(output.addTime / entries.length)}ms`
