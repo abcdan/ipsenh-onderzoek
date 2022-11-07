@@ -1,5 +1,4 @@
-module.exports = function (entries) {
-
+module.exports = function (entries, iterations) {
     const output = {
         iteration: 'Average',
         addTime: 0,
@@ -16,10 +15,10 @@ module.exports = function (entries) {
         output.deleteTime += entry.deleteTime
     }
 
-    output.addTime =`${~~(output.addTime / entries.length)}ms`
-    output.selectTime = `${~~(output.selectTime / entries.length)}ms`
-    output.editTime = `${~~(output.editTime / entries.length)}ms`
-    output.deleteTime = `${~~(output.deleteTime / entries.length)}ms`
+    output.addTime = ~~((output.addTime / entries.length) )
+    output.selectTime =  ~~((output.selectTime/ entries.length)  )
+    output.editTime =  ~~((output.editTime/ entries.length) )
+    output.deleteTime =  ~~((output.deleteTime/ entries.length)  )
 
     return output;
 }

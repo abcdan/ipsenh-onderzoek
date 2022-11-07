@@ -87,7 +87,7 @@ function reset() {
   }
 
 
-  const avg = averages(stats, 1);
+  const avg = averages(stats, ITERATIONS);
   const totalTime = total(stats)
   stats.push(new Entry("------", "------", "------", "------", "------"));
   stats.push(avg);

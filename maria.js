@@ -12,13 +12,13 @@ const total = require("./modules/total");
 /**
  * Code om de logs weg te halen, het doet niks en is iets van Maria.
  */
-console.log = function (msg, ...options) {
-  const ignore =
-    ".returning() is not supported by mysql and will not have any effect.";
-  if (msg.indexOf(ignore) === -1) {
-    console.info(msg, ...options);
-  }
-};
+// console.log = function (msg, ...options) {
+//   const ignore =
+//     ".returning() is not supported by mysql and will not have any effect.";
+//   if (msg.indexOf(ignore) === -1) {
+//     console.info(msg, ...options);
+//   }
+// };
 
 async function maria_test(TOTAL_ROUNDS = 10, ITERATIONS = 100) {
   const bar1 = new cliProgress.SingleBar(
@@ -101,7 +101,7 @@ async function maria_test(TOTAL_ROUNDS = 10, ITERATIONS = 100) {
     );
   }
 
-  const avg = averages(stats, 1);
+  const avg = averages(stats, ITERATIONS);
   const totalTime = total(stats)
   stats.push(new Entry("------", "------", "------", "------", "------"));
   stats.push(avg);

@@ -87,7 +87,7 @@ async function sqlite_test(TOTAL_ROUNDS = 10, ITERATIONS = 100) {
     );
   }
 
-  const avg = averages(stats, 1);
+  const avg = averages(stats, ITERATIONS);
   const totalTime = total(stats)
   stats.push(new Entry("------", "------", "------", "------", "------"));
   stats.push(avg);
