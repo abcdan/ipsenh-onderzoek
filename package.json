@@ -7,7 +7,7 @@
     "knex": "^2.3.0",
     "mysql": "^2.18.1",
     "precise-timer": "^1.0.1",
-    "sqlite3": "^5.1.0",
+    "sqlite3": "^5.1.5",
     "string-progressbar": "^1.0.4"
   }
 }
